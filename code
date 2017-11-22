@@ -1,0 +1,82 @@
+bass = "/Users/admin/Music/SAmples/Analog Tape Synths From Mars - Samples From Mars/Ableton Live/Samples/Samples From Mars/Free Tape Synths/Micro Moog Nasty Sub/MicroMoog Nasty Sub-F1.wav"
+kicks = "/Users/admin/Music/SAmples/808_drum_kit/kicks/"
+snares = "/Users/admin/Music/SAmples/808_drum_kit/snares/"
+hats = "/Users/admin/Music/SAmples/808_drum_kit/hihats/"
+
+dur = sample_duration bass
+
+use_bpm 54
+
+live_loop :basss do
+  cue :tick
+  with_fx :slicer, phase: dur / 32, smooth: 0.22, probability: 0.7, seed: 432 do
+    sample bass, pitch: 12
+    sample bass
+    sample bass, pitch: 24
+    sleep dur
+  end
+end
+
+live_loop :reds do
+  cue :tick
+  use_synth :tb303
+  sleep dur / 4
+  # play_chord chord(:f3, :minor), attack: 2, release: 3
+  sleep dur*2 - (dur / 4)
+end
+
+k = 9
+
+sync :tick
+live_loop :ping do
+  use_synth :blade
+  sc = scale(:f3, :minor_pentatonic, num_octave: 3)
+  use_random_seed 300
+  12.times do
+    # play sc.choose
+    sleep (knit (dur / 16), 2, (dur / 8), 1).tick
+  end
+end
+
+live_loop :kik do
+  sample kicks, k, amp: 3, release: 3
+  sleep dur / 2
+  5.times do
+    sample kicks, k, amp: (ring, 3, 2, 1, 2).tick
+    sleep dur / 32
+  end
+  sleep (11*dur) / 32
+end
+
+live_loop :snair do
+  sleep dur / 4
+  sample snares, 11
+  sleep dur / 4
+end
+
+h = 3
+
+live_loop :hat do
+  4.times do
+    sample hats, h
+    sleep dur/ 16
+  end
+  6.times do
+    sample hats, h
+    sleep dur/ 24
+  end
+  sleep dur / 16
+  3.times do
+    sample hats, h
+    sleep dur/ 16
+  end
+  8.times do
+    sample hats, h
+    sleep dur/ 64
+  end
+  2.times do
+    sample hats, h
+    sleep dur/ 16
+  end
+end
+
